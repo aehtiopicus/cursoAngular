@@ -1,19 +1,20 @@
 <!DOCTYPE html>
-<html lang="en" ng-app="confusionApp">
-
-<head>
-     <meta charset="utf-8">
+<!-- saved from url=(0125)https://s3.amazonaws.com/coursera-uploads/peer-review/52blABnqEeW9dA4X94-nLQ/a12a86534b59309d0dc52616977599d8/dishdetail.html -->
+<html lang="en" ng-app="confusionApp"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+     
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <!-- The above 3 meta tags *must* come first in the head; any other head
          content must come *after* these tags -->
     <title>Ristorante Con Fusion: Menu</title>
         <!-- Bootstrap -->
+<!-- build:css styles/main.css -->
     <link href="../bower_components/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="../bower_components/bootstrap/dist/css/bootstrap-theme.min.css" rel="stylesheet">
     <link href="../bower_components/font-awesome/css/font-awesome.min.css" rel="stylesheet">
     <link href="styles/bootstrap-social.css" rel="stylesheet">
     <link href="styles/mystyles.css" rel="stylesheet">
+<!-- endbuild -->
 
     <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
@@ -21,127 +22,108 @@
       <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
       <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
     <![endif]-->
+  <style type="text/css">
+    .customer{
+      display: inline-block;
+      margin-right: 40px;
+    }
+    .customer h4{
+      font-weight: 600;
+    }
+    .customer span{        
+      font-size: 13px;
+      line-height: 1.42857143;
+      color: #777;
+    }
+  </style>
 </head>
-<style type="text/css">
-  .customer{
-    display: inline-block;
-    margin-right: 40px;
-  }
-  .customer h4{
-    font-weight: 600;
-  }
-  .customer span{        
-    font-size: 13px;
-    line-height: 1.42857143;
-    color: #777;
-  }
-</style>
+
 <body>
 
     <div class="container">
-        <div class="row row-content" ng-controller="dishDetailController as ddController">
+        <div class="row row-content" ng-controller="DishDetailController">
             <div class="col-xs-12">
                 <div class="media-left media-middle">
-                                <a href="#">
-                                <img class="media-object img-thumbnail"
-                                 ng-src={{ddController.dish.image}} alt="Uthappizza">
+                                <a href="https://s3.amazonaws.com/coursera-uploads/peer-review/52blABnqEeW9dA4X94-nLQ/a12a86534b59309d0dc52616977599d8/dishdetail.html#">
+                                <img class="media-object img-thumbnail" ng-src="{{dish.image}}" alt="Uthappizza">
                                 </a>
                             </div>
                             <div class="media-body">
-                                <h2 class="media-heading">{{ddController.dish.name}}
-                                 <span class="label label-danger">{{ddController.dish.label}}</span>
-                                 <span class="badge">{{ddController.dish.price | currency }}</span></h2>
-                                <p>{{ddController.dish.description}}</p>
+                                <h2 class="media-heading">{{dish.name}}
+                                 <span class="label label-danger">{{dish.label}}</span>
+                                 <span class="badge">{{dish.price | currency }}</span></h2>
+                                <p>{{dish.description}}</p>
 
                             </div>
             </div>
             <div class="col-xs-9 col-xs-offset-1">
                 <div class="customer">
-                  <h4 >Customer Comments</h4>
+                  <h4>Customer Comments</h4>
                 </div>
                 <div class="customer">
                   <span>Sort by:</span>
-                  <input type="text" ng-model="ddController.sortingText" ng-keypress="ddController.sortTextFn($event)"></input>
+                  <input type="text" ng-model="sortingText" ng-keypress="sortTextFn($event)">
                 </div>
             </div>
             <div class="col-xs-9 col-xs-offset-1">
-                <blockquote ng-repeat="comments in ddController.dish.comments | orderBy: ddController.sortingText">
+                <blockquote ng-repeat="comments in dish.comments | orderBy: sortingText">
                     <p>{{comments.rating}} Stars</p>
                     <p>{{comments.comment}}</p>
                     <footer>{{comments.author}}, {{comments.date | date:'mediumDate'}}</footer>
                 </blockquote>
             </div>
+            <div class="col-xs-9 col-xs-offset-1" ng-controller="DishCommentController">
+              <ul class="list-unstyled" ng-show="commentForm.$dirty && commentForm.$valid">
+                <blockquote>
+                    <p>{{newComment.rating}} Stars</p>
+                    <p>{{newComment.comment}}</p>
+                    <footer>{{newComment.author}}</footer>
+                </blockquote>
+              </ul>
+              <form class="form-horizontal" name="commentForm" ng-submit="submitComment()" novalidate>
+                <div class="form-group" ng-class="{ 'has-error' : commentForm.author.$error.required && !commentForm.author.$pristine }">
+                    <label for="author" class="col-sm-2 control-label">Your Name</label>
+                    <div class="col-sm-10">
+                      <input type="text" class="form-control" id="author" name="author" placeholder="Enter Your Name" ng-model="newComment.author" required>                              
+                      <span ng-show="commentForm.author.$error.required && !commentForm.author.$pristine" class="help-block">Your Name is required.</span>
+                    </div>
+             
+                </div>
+                <div class="form-group">
+                  <label class="col-sm-2 control-label" style="padding-left: 0px;">Number of Stars</label>
+                  <div class="col-sm-10">
+                    <label ng-repeat ="stars in [1,2,3,4,5] " class="radio-inline">
+                      <input type="radio" name="starRating" ng-model="newComment.rating" ng-value="$index +1">{{$index +1}}
+                    </label>                      
+                  </div>
+                </div>                
+                <div class="form-group"  ng-class="{ 'has-error' : commentForm.userComments.$error.required && !commentForm.userComments.$pristine }">
+                  <label class="col-sm-2 control-label" for="userComments" style="padding-left: 0px;">Your Comments</label>
+                  <div class="col-sm-10">
+                    <textarea name="userComments" id="userComments" class="form-control" rows="12" ng-model="newComment.comment" required></textarea>
+                    <span ng-show="commentForm.userComments.$error.required && !commentForm.userComments.$pristine" class="help-block">Your comments are required.</span>
+                  </div>
+                   
+                </div>
+                <div class="form-group">
+                        <div class="col-sm-offset-2 col-sm-10">
+                            <button type="submit" class="btn btn-primary" ng-disabled="commentForm.$invalid">Submit Comment</button>
+                        </div>
+                </div>  
+
+              </form>
+            </div>
+
         </div>
 
     </div>
 
-    <script src="../bower_components/angular/angular.min.js"></script>
-    <script>
+    <!-- build:js scripts/main.js -->
+      <script src="../bower_components/angular/angular.min.js"></script>
+      <script src="scripts/app_x2.js"></script>
+    <!-- endbuild -->
 
-        var app = angular.module('confusionApp',[]);
-        
-        app.controller('dishDetailController', function() {
-          var regPattern = /^[a-zA-Z-]*$/;
 
-          this.sortTextFn = function(event){
-            var char = String.fromCharCode(event.keyCode);
-            if(!char.match(regPattern)){
-              event.stopPropagation();
-              event.preventDefault();
-            }
 
-          };
 
-            var dish={
-                          name:'Uthapizza',
-                          image: 'images/uthapizza.png',
-                          category: 'mains', 
-                          label:'Hot',
-                          price:'4.99',
-                          description:'A unique combination of Indian Uthappam (pancake) and Italian pizza, topped with Cerignola olives, ripe vine cherry tomatoes, Vidalia onion, Guntur chillies and Buffalo Paneer.',
-                           comments: [
-                               {
-                                   rating:5,
-                                   comment:"Imagine all the eatables, living in conFusion!",
-                                   author:"John Lemon",
-                                   date:"2012-10-16T17:57:28.556094Z"
-                               },
-                               {
-                                   rating:4,
-                                   comment:"Sends anyone to heaven, I wish I could get my mother-in-law to eat it!",
-                                   author:"Paul McVites",
-                                   date:"2014-09-05T17:57:28.556094Z"
-                               },
-                               {
-                                   rating:3,
-                                   comment:"Eat it, just eat it!",
-                                   author:"Michael Jaikishan",
-                                   date:"2015-02-13T17:57:28.556094Z"
-                               },
-                               {
-                                   rating:4,
-                                   comment:"Ultimate, Reaching for the stars!",
-                                   author:"Ringo Starry",
-                                   date:"2013-12-02T17:57:28.556094Z"
-                               },
-                               {
-                                   rating:2,
-                                   comment:"It's your birthday, we're gonna party!",
-                                   author:"25 Cent",
-                                   date:"2011-12-02T17:57:28.556094Z"
-                               }
-                               
-                           ]
-                    };
-            
-            this.dish = dish;
-
-            this.sortingText = '';
-            
-        });
-
-    </script>
-
-</body>
-
-</html>
+</body></html>
