@@ -1,6 +1,5 @@
 'use strict';
-angular.module('confusionApp').controller('MenuController', ['$scope','menuFactory', function($scope,menuFactory) {
-            debugger;
+angular.module('confusionApp').controller('MenuController', ['$scope','menuFactory', function($scope,menuFactory) {            
             $scope.tab = 1;
             $scope.filtText = '';
             $scope.showDetails = false;

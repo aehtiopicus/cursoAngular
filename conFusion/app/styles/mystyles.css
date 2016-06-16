@@ -94,3 +94,16 @@ body {
   position: absolute;
   right: 0px;
 }
+
+.customer{
+      display: inline-block;
+      margin-right: 40px;
+    }
+    .customer h4{
+      font-weight: 600;
+    }
+    .customer span{        
+      font-size: 13px;
+      line-height: 1.42857143;
+      color: #777;
+    }
