@@ -1,10 +1,15 @@
 'use strict';
-angular.module('confusionApp').controller('MenuController', ['$scope','menuFactory', function($scope,menuFactory) {            
+
+angular.module('confusionApp')
+
+        .controller('MenuController', ['$scope', 'menuFactory', function($scope, menuFactory) {
+            
             $scope.tab = 1;
             $scope.filtText = '';
             $scope.showDetails = false;
 
-            $scope.dishes =menuFactory.getDishes();
+            $scope.dishes= menuFactory.getDishes();
+
                         
             $scope.select = function(setTab) {
                 $scope.tab = setTab;
@@ -63,33 +68,44 @@ angular.module('confusionApp').controller('MenuController', ['$scope','menuFacto
             };
         }])
 
-        .controller('DishDetailController', ['$scope','$stateParams','menuFactory', function($scope,$stateParams,menuFactory) {
-
-          var regPattern = /^[a-zA-Z-]*$/;
-
-          $scope.sortTextFn = function(event){
-            var char = String.fromCharCode(event.keyCode);
-            if(!char.match(regPattern)){
-              event.stopPropagation();
-              event.preventDefault();
-            }
-
-          };
-          var dish = menuFactory.getDish(parseInt($stateParams.id,10));
-          $scope.dish= dish;
+        .controller('DishDetailController', ['$scope', '$stateParams', 'menuFactory', function($scope, $stateParams, menuFactory) {
+            var dish= menuFactory.getDish(parseInt($stateParams.id,10));
+            
+            $scope.dish = dish;
             
         }])
 
         .controller('DishCommentController', ['$scope', function($scope) {
-        
-          $scope.newComment = {
-            rating : 5     
-          };
-
-          $scope.submitComment = function () {
-            $scope.newComment.date = new Date().toISOString();
-            $scope.dish.comments.push( $scope.newComment);                                
-            $scope.commentForm.$setPristine();
-            $scope.newComment = {rating : 5};            
+            
+            $scope.mycomment = {rating:5, comment:"", author:"", date:""};
+            
+            $scope.submitComment = function () {
+                
+                $scope.mycomment.date = new Date().toISOString();
+                console.log($scope.mycomment);
+                
+                $scope.dish.comments.push($scope.mycomment);
+                
+                $scope.commentForm.$setPristine();
+                
+                $scope.mycomment = {rating:5, comment:"", author:"", date:""};
             };
-        }]);
+        }])
+
+        .controller('IndexController',['$scope','menuFactory','corporateFactory',function($scope,menuFactory,corporateFactory){
+            $scope.dish = menuFactory.getDish(0);
+            $scope.promotion = menuFactory.getPromotion(0);
+            $scope.employee = corporateFactory.getLeader(3);
+        }])
+
+        .controller('AboutController',['$scope','corporateFactory',function($scope,corporateFactory){
+            $scope.loadCorportateEmployees = function(){
+                console.log(corporateFactory.getLeaders());
+                return corporateFactory.getLeaders();
+            };
+        }])
+
+        // implement the IndexController and About Controller here
+
+
+;

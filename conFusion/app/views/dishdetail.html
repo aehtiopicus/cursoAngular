@@ -1,5 +1,5 @@
     <div class="container">
-        <div class="row row-content" ng-controller="DishDetailController">
+        <div class="row row-content">
             <div class="col-xs-12">
               <button class=" btn btn-xs btn-primary pull-right" type="button" ui-sref="app.menu">
                 Back to menu
@@ -36,16 +36,16 @@
             <div class="col-xs-9 col-xs-offset-1" ng-controller="DishCommentController">
               <ul class="list-unstyled" ng-show="commentForm.$dirty && commentForm.$valid">
                 <blockquote>
-                    <p>{{newComment.rating}} Stars</p>
-                    <p>{{newComment.comment}}</p>
-                    <footer>{{newComment.author}}</footer>
+                    <p>{{mycomment.rating}} Stars</p>
+                    <p>{{mycomment.comment}}</p>
+                    <footer>{{mycomment.author}}</footer>
                 </blockquote>
               </ul>
               <form class="form-horizontal" name="commentForm" ng-submit="submitComment()" novalidate>
                 <div class="form-group" ng-class="{ 'has-error' : commentForm.author.$error.required && !commentForm.author.$pristine }">
                     <label for="author" class="col-sm-2 control-label">Your Name</label>
                     <div class="col-sm-10">
-                      <input type="text" class="form-control" id="author" name="author" placeholder="Enter Your Name" ng-model="newComment.author" required>                              
+                      <input type="text" class="form-control" id="author" name="author" placeholder="Enter Your Name" ng-model="mycomment.author" required>                              
                       <span ng-show="commentForm.author.$error.required && !commentForm.author.$pristine" class="help-block">Your Name is required.</span>
                     </div>
              
@@ -54,14 +54,14 @@
                   <label class="col-sm-2 control-label" style="padding-left: 0px;">Number of Stars</label>
                   <div class="col-sm-10">
                     <label ng-repeat ="stars in [1,2,3,4,5] " class="radio-inline">
-                      <input type="radio" name="starRating" ng-model="newComment.rating" ng-value="$index +1">{{$index +1}}
+                      <input type="radio" name="starRating" ng-model="mycomment.rating" ng-value="$index +1">{{$index +1}}
                     </label>                      
                   </div>
                 </div>                
                 <div class="form-group"  ng-class="{ 'has-error' : commentForm.userComments.$error.required && !commentForm.userComments.$pristine }">
                   <label class="col-sm-2 control-label" for="userComments" style="padding-left: 0px;">Your Comments</label>
                   <div class="col-sm-10">
-                    <textarea name="userComments" id="userComments" class="form-control" rows="12" ng-model="newComment.comment" required></textarea>
+                    <textarea name="userComments" id="userComments" class="form-control" rows="12" ng-model="mycomment.comment" required></textarea>
                     <span ng-show="commentForm.userComments.$error.required && !commentForm.userComments.$pristine" class="help-block">Your comments are required.</span>
                   </div>
                    

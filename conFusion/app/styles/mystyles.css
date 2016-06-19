@@ -102,6 +102,7 @@ body {
     .customer h4{
       font-weight: 600;
     }
+    .employee-position,
     .customer span{        
       font-size: 13px;
       line-height: 1.42857143;
