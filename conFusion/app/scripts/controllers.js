@@ -63,7 +63,7 @@ angular.module('confusionApp').controller('MenuController', ['$scope','menuFacto
             };
         }])
 
-        .controller('DishDetailController', ['$scope','menuFactory', function($scope,menuFactory) {
+        .controller('DishDetailController', ['$scope','$stateParams','menuFactory', function($scope,$stateParams,menuFactory) {
 
           var regPattern = /^[a-zA-Z-]*$/;
 
@@ -75,8 +75,8 @@ angular.module('confusionApp').controller('MenuController', ['$scope','menuFacto
             }
 
           };
-
-          $scope.dish= menuFactory.getDish(3);
+          var dish = menuFactory.getDish(parseInt($stateParams.id,10));
+          $scope.dish= dish;
             
         }])
 

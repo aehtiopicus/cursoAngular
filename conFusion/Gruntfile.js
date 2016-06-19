@@ -55,7 +55,7 @@ module.exports = function(grunt){
 	        }
 	    },
     	useminPrepare: {
-        	html: 'app/menu.html',
+        	html: 'app/index.html',
         	options: {
             	dest: 'dist'
         	}
@@ -142,7 +142,7 @@ module.exports = function(grunt){
           			base:{
                			path: 'dist',
             			options: {
-                			index: 'menu.html',
+                			index: 'index.html',
                 			maxAge: 300000
             			}
           			}
@@ -161,7 +161,7 @@ module.exports = function(grunt){
 		'filerev',
     	'usemin'
 	]);
-	grunt.registerTask('default',['build',]);
+	grunt.registerTask('default',['build']);
 
 	grunt.registerTask('serv',['build','connect:dist','watch']);
 
